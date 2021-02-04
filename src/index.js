@@ -1,14 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import CommandBar from './AppBar'
 import reportWebVitals from './reportWebVitals';
+import { Route, BrowserRouter } from 'react-router-dom';
+
+import Home from './Home/Home';
+import CommandBar from './AppBar';
+
 
 ReactDOM.render(
   <React.StrictMode>
     <CommandBar />
-    <App />
+    <BrowserRouter>
+      <Route exact path="/" component={Home}/>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
