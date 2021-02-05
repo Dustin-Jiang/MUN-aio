@@ -15,6 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Assignment, ChatBubble, ExitToApp, FileCopy, Notifications, Settings } from '@material-ui/icons';
 
 const drawerWidth = 240;
 
@@ -51,21 +52,57 @@ function CommandBar(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button key="文件">
+          <ListItemIcon>
+            <FileCopy/>
+          </ListItemIcon> 
+          <ListItemText>
+            文件
+          </ListItemText>
+        </ListItem>
+        <ListItem button key="新闻">
+          <ListItemIcon>
+            <ChatBubble />
+          </ListItemIcon>
+          <ListItemText>
+            新闻
+          </ListItemText>
+        </ListItem>
+        <ListItem button key="指令单">
+          <ListItemIcon>
+            <Assignment />
+          </ListItemIcon>
+          <ListItemText>
+            指令单
+          </ListItemText>
+        </ListItem>
+        <ListItem button key="通知">
+          <ListItemIcon>
+            <Notifications />
+          </ListItemIcon>
+          <ListItemText>
+            通知
+          </ListItemText>
+        </ListItem>
       </List>
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button key="设置">
+          <ListItemIcon>
+            <Settings />
+          </ListItemIcon>
+          <ListItemText>
+            设置
+          </ListItemText>
+        </ListItem>
+        <ListItem button key="退出">
+          <ListItemIcon>
+            <ExitToApp />
+          </ListItemIcon>
+          <ListItemText>
+            退出
+          </ListItemText>
+        </ListItem>
       </List>
     </div>
   );
