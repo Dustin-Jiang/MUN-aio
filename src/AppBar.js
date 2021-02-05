@@ -75,7 +75,7 @@ function CommandBar(props) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="sticky" className={classes.appBar}>
+      <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -91,6 +91,7 @@ function CommandBar(props) {
           </Typography>
         </Toolbar>
       </AppBar>
+      <div className={classes.toolbar}></div>
       <nav className={classes.drawer} aria-label="mailbox folders">
         <Drawer
           container={container}
