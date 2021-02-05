@@ -12,8 +12,12 @@ const style = makeStyles((theme) => ({
 function getPermission(){
   var permissions = [
     "DH",
+    "DM",
     "news",
-    "checkNews"
+    "checkNews",
+    "file",
+    "command",
+    "checkCommand"
   ]
   return permissions;
 }
