@@ -3,6 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import { Grid, Typography } from '@material-ui/core';
 import Notification from './Notification';
+import Permission from './Permission';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +47,12 @@ function Home() {
             </Typography>
             </div>
           </Grid>
+        </Paper>
+        <Paper>
+          <Typography variant="h6">
+            权限
+          </Typography>
+          <Permission />
         </Paper>
       </div>
       <div>
