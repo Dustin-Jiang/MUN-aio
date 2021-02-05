@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     width: "100%",
     textAlign: "left",
+    borderRadius: "4px",
   },
   NotificationBox: {
     paddingTop: theme.spacing(1),
@@ -32,19 +33,19 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles()
   var notificationList = []
-  for (var i=0; i<15; i++) {
+  for (var i = 0; i < 15; i++) {
     notificationList.push(
       <ButtonBase className={classes.Notification}>
         <Paper className={classes.NotificationBox}>
           <Typography className={classes.NotificationTop}>
             会场状态更新
-        </Typography>
+          </Typography>
           <Typography className={classes.NotificationTitle}>
             大不列颠及北爱尔兰联合王国
-        </Typography>
+          </Typography>
           <Typography className={classes.NotificationContext}>
             首相张伯伦被刺杀
-        </Typography>
+          </Typography>
         </Paper>
       </ButtonBase>
     )
