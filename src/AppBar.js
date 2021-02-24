@@ -15,7 +15,32 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Assignment, ChatBubble, ExitToApp, FileCopy, Notifications, Settings } from '@material-ui/icons';
+import { Assignment, ChatBubble, ExitToApp, FileCopy, Home, Notifications, Settings } from '@material-ui/icons';
+import { Link as RouterLink, Route } from 'react-router-dom';
+
+function ListItemLink(props) {
+  const { icon, primary, to } = props;
+
+  const renderLink = React.useMemo(
+    () => React.forwardRef((itemProps, ref) => <RouterLink to={to} ref={ref} {...itemProps} />),
+    [to],
+  );
+
+  return (
+    <li>
+      <ListItem button component={renderLink}>
+        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+        <ListItemText primary={primary} />
+      </ListItem>
+    </li>
+  );
+}
+
+ListItemLink.propTypes = {
+  icon: PropTypes.element,
+  primary: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+};
 
 const drawerWidth = 240;
 
@@ -50,64 +75,58 @@ function CommandBar(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar} />
-      <Divider />
       <List>
-        <ListItem button key="文件">
-          <ListItemIcon>
-            <FileCopy/>
-          </ListItemIcon> 
-          <ListItemText>
-            文件
-          </ListItemText>
-        </ListItem>
-        <ListItem button key="新闻">
-          <ListItemIcon>
-            <ChatBubble />
-          </ListItemIcon>
-          <ListItemText>
-            新闻
-          </ListItemText>
-        </ListItem>
-        <ListItem button key="指令单">
-          <ListItemIcon>
-            <Assignment />
-          </ListItemIcon>
-          <ListItemText>
-            指令单
-          </ListItemText>
-        </ListItem>
-        <ListItem button key="通知">
-          <ListItemIcon>
-            <Notifications />
-          </ListItemIcon>
-          <ListItemText>
-            通知
-          </ListItemText>
-        </ListItem>
+        <ListItemLink
+          primary="主页"
+          to="/"
+          icon={<Home />} />
       </List>
       <Divider />
       <List>
-        <ListItem button key="设置">
-          <ListItemIcon>
-            <Settings />
-          </ListItemIcon>
-          <ListItemText>
-            设置
-          </ListItemText>
-        </ListItem>
-        <ListItem button key="退出">
-          <ListItemIcon>
-            <ExitToApp />
-          </ListItemIcon>
-          <ListItemText>
-            退出
-          </ListItemText>
-        </ListItem>
+        <ListItemLink
+          primary="文件"
+          to="/file"
+          icon={<FileCopy />} />
+
+        <ListItemLink
+          primary="新闻"
+          to="/news"
+          icon={<ChatBubble />} />
+
+        <ListItemLink
+          primary="指令单"
+          to="/commandlist"
+          icon={<Assignment />} />
+
+        <ListItemLink
+          icon={<Notifications />}
+          primary="通知"
+          to="/notification" />
+      </List>
+      <Divider />
+      <List>
+        <ListItemLink
+          icon={<Settings />}
+          primary="设置"
+          to="/settings" />
+        <ListItemLink
+          primary="退出"
+          icon={<ExitToApp />}
+          to="/exit" />
       </List>
     </div>
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
+
+  const siteMap = {
+    "/": "主页",
+    "/file": "文件",
+    "/commandlist": "指令单",
+    "/notification": "通知",
+    "/settings": "设置",
+    "/login": "登录"
+  }
 
   return (
     <div className={classes.root}>
@@ -119,13 +138,14 @@ function CommandBar(props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
+            className={classes.menuButton}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            主页 | MUN All in One
-          </Typography>
+          <Route>
+            {({ location }) => (
+              <Typography variant="h6">{siteMap[location.pathname]} | MUN All in One</Typography>
+            )}
+          </Route>
         </Toolbar>
       </AppBar>
       <div className={classes.toolbar}></div>

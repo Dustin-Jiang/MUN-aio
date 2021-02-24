@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import { Grid, Hidden, Typography } from '@material-ui/core';
 import Notification from './Notification';
 import Permission from './Permission';

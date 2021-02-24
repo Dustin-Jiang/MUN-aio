@@ -1,17 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
-import { Route, BrowserRouter } from 'react-router-dom';
+import { Route, BrowserRouter, MemoryRouter, Switch } from 'react-router-dom';
 
 import Home from './Home/Home';
+import PageFile from './File/File';
 import CommandBar from './AppBar';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <CommandBar />
     <BrowserRouter>
-      <Route exact path="/" component={Home}/>
+      <Switch>
+        <Route exact path="/">
+          <CommandBar />
+          <Home/>
+        </Route>
+        <Route path="/file">
+          <CommandBar/>
+          <PageFile/>
+        </Route>
+      </Switch>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
