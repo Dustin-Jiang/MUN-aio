@@ -27,6 +27,14 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     }
   },
+  noPadding: {
+    padding: 0,
+  },
+  noPaddingFix: {
+    paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
+  }
 }));
 
 function Home() {
@@ -44,8 +52,8 @@ function Home() {
             <Paper>
               <User />
             </Paper>
-            <Paper>
-              <Typography variant="h6">
+            <Paper className={classes.noPadding}>
+              <Typography variant="h6" className={classes.noPaddingFix}>
                 权限
               </Typography>
               <Permission />
