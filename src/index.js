@@ -6,7 +6,7 @@ import { Route, BrowserRouter, MemoryRouter, Switch } from 'react-router-dom';
 import Home from './Home/Home';
 import PageFile from './File/File';
 import CommandBar from './AppBar';
-
+import CommandList from './CommandList/CommandList';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,6 +19,10 @@ ReactDOM.render(
         <Route path="/file">
           <CommandBar/>
           <PageFile/>
+        </Route>
+        <Route path="/commandlist">
+          <CommandBar/>
+          <CommandList/>
         </Route>
       </Switch>
     </BrowserRouter>

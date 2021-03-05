@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { Grid, Hidden, Typography } from '@material-ui/core';
 import RecentFile from './RecentFile';
+import FileList from './FileList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +26,14 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     }
   },
+  noPadding: {
+    padding: 0,
+  },
+  noPaddingFix: {
+    paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
+  }
 }));
 
 function PageFile() {
@@ -46,10 +55,11 @@ function PageFile() {
           </Paper>
         </div>
         <div>
-          <Paper>
-            <Typography variant="h6">
+          <Paper className={classes.noPadding}>
+            <Typography variant="h6" className={classes.noPaddingFix}>
               文件列表
             </Typography>
+            <FileList/>
           </Paper>
         </div>
       </Grid>
