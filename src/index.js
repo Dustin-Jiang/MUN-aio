@@ -14,14 +14,8 @@ ReactDOM.render(
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Grid container
-            direction="column"
-            justify="center"
-            alignItems="top"
-            height="100%">
-            <CommandBar />
-            <Home />
-          </Grid>
+          <CommandBar />
+          <Home />
         </Route>
         <Route path="/file">
           <CommandBar/>
@@ -32,6 +26,7 @@ ReactDOM.render(
             direction="column"
             justify="top"
             alignItems="top"
+            wrap="nowrap"
             style={{height: `${100}%`}}>
             <CommandBar />
             <CommandList />

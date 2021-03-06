@@ -36,9 +36,6 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2)
   },
-  overFlowY: {
-    overflowY: "auto",
-  }
 }));
 
 function Home() {
@@ -64,7 +61,7 @@ function Home() {
             </Paper>
           </div>
           <div>
-            <Paper className={classes.overFlowY}>
+            <Paper>
               <Typography variant="h6">
                 通知
               </Typography>
