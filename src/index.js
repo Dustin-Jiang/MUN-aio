@@ -7,22 +7,35 @@ import Home from './Home/Home';
 import PageFile from './File/File';
 import CommandBar from './AppBar';
 import CommandList from './CommandList/CommandList';
+import { Grid } from '@material-ui/core';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <CommandBar />
-          <Home/>
+          <Grid container
+            direction="column"
+            justify="center"
+            alignItems="top"
+            height="100%">
+            <CommandBar />
+            <Home />
+          </Grid>
         </Route>
         <Route path="/file">
           <CommandBar/>
           <PageFile/>
         </Route>
         <Route path="/commandlist">
-          <CommandBar/>
-          <CommandList/>
+          <Grid container
+            direction="column"
+            justify="top"
+            alignItems="top"
+            style={{height: `${100}%`}}>
+            <CommandBar />
+            <CommandList />
+          </Grid>
         </Route>
       </Switch>
     </BrowserRouter>
@@ -33,4 +46,4 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals(console.log);

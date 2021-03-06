@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(2),
       width: theme.spacing(64),
     },
+    height: "100%",
   },
   rootMobile: {
     display: 'flex',

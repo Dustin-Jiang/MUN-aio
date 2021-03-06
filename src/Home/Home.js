@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(2),
       width: theme.spacing(64),
     },
+    height: "100%",
   },
   rootMobile: {
     display: 'flex',
@@ -34,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(2),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2)
+  },
+  overFlowY: {
+    overflowY: "auto",
   }
 }));
 
@@ -60,7 +64,7 @@ function Home() {
             </Paper>
           </div>
           <div>
-            <Paper>
+            <Paper className={classes.overFlowY}>
               <Typography variant="h6">
                 通知
               </Typography>
