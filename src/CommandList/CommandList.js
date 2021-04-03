@@ -1,5 +1,6 @@
 import { Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { LaptopWindows } from '@material-ui/icons';
 import Notification from '../Home/Notification';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "auto",
   },
   fullHeight: {
-    height: "100%",
+    height: "var(--fullHeight)",
   },
   flexContainer: {
     display: "flex",
@@ -62,12 +63,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CommandList() {
+  var fullHeight = document.getElementById("fullHeight");
+
+  // window.addEventListener("load", () => {
+  //   fullHeight.style.setProperty("--fullHeight", document.getElementsByTagName("body")[0].offsetHeight - document.getElementsByTagName("header")[0].offsetHeight);
+  // });
+
+  // window.addEventListener("resize", () => {
+  //   fullHeight.style.setProperty("--fullHeight", document.getElementsByTagName("body")[0].offsetHeight - document.getElementsByTagName("header")[0].offsetHeight);
+  // });
+
   const classes = useStyles();
 
   document.getElementById("root").style.overflowY = "hidden";
 
   return (
-    <div className={classes.fullHeight}>
+    <div className={classes.fullHeight} id="fullHeight">
       <Grid container
         direction="row"
         justify="left"
