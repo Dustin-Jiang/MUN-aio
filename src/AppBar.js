@@ -125,7 +125,8 @@ function CommandBar(props) {
     "/commandlist": "指令单",
     "/notification": "通知",
     "/settings": "设置",
-    "/login": "登录"
+    "/login": "登录",
+    "/news": "新闻"
   }
 
   return (

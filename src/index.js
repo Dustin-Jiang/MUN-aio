@@ -4,9 +4,11 @@ import reportWebVitals from './reportWebVitals';
 import { Route, BrowserRouter, MemoryRouter, Switch } from 'react-router-dom';
 
 import Home from './Home/Home';
+import Login from './Login';
 import PageFile from './File/File';
 import CommandBar from './AppBar';
 import CommandList from './CommandList/CommandList';
+import News from './News/News'
 import { Grid } from '@material-ui/core';
 
 ReactDOM.render(
@@ -17,9 +19,17 @@ ReactDOM.render(
           <CommandBar />
           <Home />
         </Route>
+        <Route path="/login">
+          <CommandBar />
+          <Login />
+        </Route>
         <Route path="/file">
           <CommandBar/>
           <PageFile/>
+        </Route>
+        <Route path="/news">
+          <CommandBar/>
+          <News/>
         </Route>
         <Route path="/commandlist">
           <Grid container
