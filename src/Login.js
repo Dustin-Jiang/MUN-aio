@@ -1,4 +1,6 @@
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import md5 from "blueimp-md5";
+import API from "./util/Api"
 import {
   Avatar,
   Button,
@@ -11,6 +13,7 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
+import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -76,6 +79,21 @@ const useStyles = makeStyles((theme) => ({
 function Login() {
   const classes = useStyles();
 
+  const loginValidate = (e) => {
+    e.preventDefault();
+    API.get('/login/' + email + '/' + md5(pwd) ).then((response) => {
+      const result = response.data;
+      console.log(result);
+    })
+  }
+
+  const stopRedirect = (e) => {
+    e.preventDefault();
+  }
+  
+  const [pwd, setPwd] = useState("");
+  const [email, setEmail] = useState("");
+
   return (
     <Paper className={classes.paper}>
       <Avatar className={classes.avatar}>
@@ -84,7 +102,7 @@ function Login() {
       <Typography component="h1" variant="h5">
         登录 MUN AIO
       </Typography>
-      <form className={classes.form} onSubmit=''>
+      <form className={classes.form} onSubmit={stopRedirect}>
         <FormControl margin="normal" required fullWidth>
           <InputLabel htmlFor="email">
             电子邮箱
@@ -96,8 +114,8 @@ function Login() {
             onChange={(e) =>
               setEmail(e.target.value)
             }
-            autoComplete
-            autoFocus
+            autoComplete="true"
+            autoFocus={true}
           />
         </FormControl>
         <FormControl margin="normal" required fullWidth>
@@ -109,7 +127,7 @@ function Login() {
             onChange={(e) => setPwd(e.target.value)}
             type="password"
             id="password"
-            autoComplete
+            autoComplete="true"
           />
         </FormControl>
         <Button
@@ -118,19 +136,12 @@ function Login() {
           variant="contained"
           color="primary"
           className={classes.submit}
+          onClick={loginValidate}
         >
           登录
         </Button>
       </form>
     </Paper>);
-}
-
-function setPwd(pwd) {
-  return ;
-}
-
-function setEmail(email) {
-  return ;
 }
 
 export default Login;
