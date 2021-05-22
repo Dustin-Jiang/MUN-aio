@@ -8,40 +8,43 @@ import Login from './Login';
 import PageFile from './File/File';
 import CommandBar from './AppBar';
 import CommandList from './CommandList/CommandList';
-import News from './News/News'
+import News from './News/News';
 import { Grid } from '@material-ui/core';
+import AuthRoute from './util/AuthRoute';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Switch>
-        <Route exact path="/">
-          <CommandBar />
-          <Home />
-        </Route>
         <Route path="/login">
           <CommandBar />
           <Login />
         </Route>
-        <Route path="/file">
-          <CommandBar/>
-          <PageFile/>
-        </Route>
-        <Route path="/news">
-          <CommandBar/>
-          <News/>
-        </Route>
-        <Route path="/commandlist">
-          <Grid container
-            direction="column"
-            justify="top"
-            alignItems="top"
-            wrap="nowrap"
-            style={{height: `${100}%`}}>
+        <AuthRoute>
+          <Route exact path="/">
             <CommandBar />
-            <CommandList />
-          </Grid>
-        </Route>
+            <Home />
+          </Route>
+          <Route path="/file">
+            <CommandBar />
+            <PageFile />
+          </Route>
+          <Route path="/news">
+            <CommandBar />
+            <News />
+          </Route>
+          <Route path="/commandlist">
+            <Grid container
+              direction="column"
+              justify="top"
+              alignItems="top"
+              wrap="nowrap"
+              style={{ height: `${100}%` }}>
+              <CommandBar />
+              <CommandList />
+            </Grid>
+          </Route>
+        </AuthRoute>
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,

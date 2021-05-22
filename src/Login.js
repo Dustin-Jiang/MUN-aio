@@ -82,7 +82,7 @@ function Login() {
   const loginValidate = (e) => {
     e.preventDefault();
     API.get('/login/' + email + '/' + md5(pwd) ).then((response) => {
-      const result = response.data;
+      const result = response.rawData;
       console.log(result);
     })
   }
