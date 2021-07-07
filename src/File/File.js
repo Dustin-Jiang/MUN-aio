@@ -45,7 +45,6 @@ function PageFile() {
       <Grid container
         direction="row"
         justify="center"
-        alignItems="top"
         className={classes.root}>
         <div>
           <Paper>

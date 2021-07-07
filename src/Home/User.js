@@ -2,6 +2,8 @@ import { Grid, Typography } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
+import Auth from '../util/Auth';
+
 const styles = makeStyles((theme) => ({
   Avatar: {
     marginRight: theme.spacing(1),
@@ -13,14 +15,12 @@ function User() {
   const classes = styles();
   return (
     <Grid container
-      direction="row"
-      justify="left"
-      alignItems="left">
+      direction="row">
       <AccountCircle fontSize="large"
         className={classes.Avatar} />
       <div>
         <Typography variant="h5">
-          张静璇
+          { Auth.GetUser()['name'] }
         </Typography>
         <Typography variant="caption">
           中文常规委员会

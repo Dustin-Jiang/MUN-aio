@@ -19,7 +19,6 @@ function RecentFile() {
   return (
     <Grid container
       direction="row"
-      justify="left"
       alignItems="center"
       wrap="nowrap">
       <IconButton className={classes.TopFile} color="primary">

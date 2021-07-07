@@ -1,18 +1,16 @@
-"use strict";
-exports.__esModule = true;
-var Auth = {
+const Auth = {
     isAuthenticated: false,
-    authenticate: function (cb) {
+    authenticate(cb) {
         Auth.SetUser(cb);
         Auth.isAuthenticated = true;
     },
-    GetUser: function () {
+    GetUser() {
         return JSON.parse(localStorage.getItem("user") || "null");
     },
-    SetUser: function (newUser) {
+    SetUser(newUser) {
         localStorage.setItem("user", JSON.stringify(newUser));
     },
-    Check: function () {
+    Check() {
         if (Auth.isAuthenticated) {
             return true;
         }
@@ -21,24 +19,22 @@ var Auth = {
         }
         return false;
     },
-    signout: function () {
+    signout() {
         Auth.isAuthenticated = false;
-        var oldUser = Auth.GetUser();
-        oldUser.id = 0;
-        localStorage.setItem("user", JSON.stringify(oldUser));
+        localStorage.removeItem("user");
     },
-    SetPreference: function (key, value) {
-        var preference = JSON.parse(localStorage.getItem("user_preference") || "{}");
+    SetPreference(key, value) {
+        let preference = JSON.parse(localStorage.getItem("user_preference") || "{}");
         preference = preference == null ? {} : preference;
         preference[key] = value;
         localStorage.setItem("user_preference", JSON.stringify(preference));
     },
-    GetPreference: function (key) {
-        var preference = JSON.parse(localStorage.getItem("user_preference") || "{}");
+    GetPreference(key) {
+        const preference = JSON.parse(localStorage.getItem("user_preference") || "{}");
         if (preference && preference[key]) {
             return preference[key];
         }
         return null;
-    }
+    },
 };
-exports["default"] = Auth;
+export default Auth;

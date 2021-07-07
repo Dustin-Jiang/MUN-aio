@@ -4,6 +4,7 @@ import { Grid, Hidden, Typography } from '@material-ui/core';
 import Notification from './Notification';
 import Permission from './Permission';
 import User from './User';
+import AlertBar from '../Components/AlertBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,10 +45,12 @@ function Home() {
   return (
     <div>
       <Hidden smDown>
+        <AlertBar>
+          Lorem ipsum
+        </AlertBar>
         <Grid container
           direction="row"
           justify="center"
-          alignItems="top"
           className={classes.root}>
           <div>
             <Paper>
@@ -71,17 +74,19 @@ function Home() {
         </Grid>
       </Hidden>
       <Hidden mdUp>
+        <AlertBar>
+          Lorem ipsum
+        </AlertBar>
         <Grid container
           direction="row"
           justify="center"
-          alignItems="top"
           className={classes.rootMobile}>
           <div>
             <Paper>
               <User />
             </Paper>
-            <Paper>
-              <Typography variant="h6">
+            <Paper className={classes.noPadding}>
+              <Typography variant="h6" className={classes.noPaddingFix}>
                 权限
               </Typography>
               <Permission />

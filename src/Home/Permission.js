@@ -3,6 +3,8 @@ import { ListItem, ListItemIcon, ListItemText, Grid } from '@material-ui/core';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import { AssignmentTurnedIn, FileCopy, Note, Person } from '@material-ui/icons';
 
+import Auth from '../util/Auth'; 
+
 const style = makeStyles((theme) => ({
   Icon: {
     marginRight: theme.spacing(1),
@@ -10,15 +12,7 @@ const style = makeStyles((theme) => ({
 }));
 
 function getPermission(){
-  var permissions = [
-    "DH",
-    "DM",
-    "news",
-    "checkNews",
-    "file",
-    "command",
-    "checkCommand"
-  ]
+  var permissions = Auth.GetUser()["permission"];
   return permissions;
 }
 

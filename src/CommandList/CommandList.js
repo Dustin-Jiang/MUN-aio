@@ -70,7 +70,6 @@ function CommandList() {
     <div className={classes.fullHeight}>
       <Grid container
         direction="row"
-        justify="left"
         alignItems="start"
         className={classes.root}>
         <div>

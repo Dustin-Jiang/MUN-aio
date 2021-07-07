@@ -5,6 +5,7 @@ import { Route, BrowserRouter, MemoryRouter, Switch } from 'react-router-dom';
 
 import Home from './Home/Home';
 import Login from './Login';
+import Exit from "./Exit";
 import PageFile from './File/File';
 import CommandBar from './AppBar';
 import CommandList from './CommandList/CommandList';
@@ -33,11 +34,13 @@ ReactDOM.render(
             <CommandBar />
             <News />
           </Route>
+          <Route path="/exit">
+            <Exit />
+          </Route>
           <Route path="/commandlist">
             <Grid container
               direction="column"
               justify="top"
-              alignItems="top"
               wrap="nowrap"
               style={{ height: `${100}%` }}>
               <CommandBar />

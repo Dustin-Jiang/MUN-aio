@@ -4,16 +4,17 @@ import API from "./util/Api"
 import {
   Avatar,
   Button,
-  Divider,
   FormControl,
   Input,
   InputLabel,
-  Link,
   makeStyles,
   Paper,
   Typography,
 } from "@material-ui/core";
 import { useState } from "react";
+import Auth from "./util/Auth";
+import { useHistory } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -78,13 +79,30 @@ const useStyles = makeStyles((theme) => ({
 
 function Login() {
   const classes = useStyles();
+  const history = useHistory();
 
   const loginValidate = (e) => {
     e.preventDefault();
-    API.get('/login/' + email + '/' + md5(pwd) ).then((response) => {
+    API.get('/login/' + email + '/' + md5(pwd))
+    .then((response) => {
       const result = response.rawData;
-      console.log(result);
+      if (response.status === 200 || response.status === 304) {
+        if (Auth.GetUser() === null) {
+          Auth.authenticate(result["content"])
+          history.push("/")
+        } else {
+          console.log(Auth.GetUser())
+          Auth.signout();
+          Auth.authenticate(result["content"]);
+          history.push("/")
+        }
+      }
     })
+    .catch((error) => {
+      if (error.response) {
+        console.log(error.response.status);
+      }
+    });
   }
 
   const stopRedirect = (e) => {
