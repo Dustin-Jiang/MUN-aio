@@ -41,9 +41,9 @@ const styles = makeStyles((theme) => ({
 }));
 
 class AlertBar extends React.Component {
-  constructor(props, children) {
+  constructor(props) {
     super(props);
-    this.children = <SnackbarContent>children</SnackbarContent>;
+    this.children = props.children;
 
     this.variantIcon = {
       success: CheckCircleIcon,
