@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 import ErrorIcon from "@material-ui/icons/Error";
 import InfoIcon from "@material-ui/icons/Info";
@@ -41,36 +40,48 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-function AlertBar({children}, props){
-  const classes = styles();
+class AlertBar extends React.Component {
+  constructor(props, children) {
+    super(props);
+    this.children = <SnackbarContent>children</SnackbarContent>;
 
-  const variantIcon = {
-    success: CheckCircleIcon,
-    warning: WarningIcon,
-    error: ErrorIcon,
-    info: InfoIcon,
-  };
+    this.variantIcon = {
+      success: CheckCircleIcon,
+      warning: WarningIcon,
+      error: ErrorIcon,
+      info: InfoIcon,
+    };
+    
+    this.state = {
+      open: true,
+      autoHideDuration: 6000,
+      vertical: 'top',
+      horizontal: 'right',
+      type: (props.type == null) ? 'info' : props.type
+    };
+  }
 
-  const state = {
-    open: true,
-    autoHideDuration: 6000,
-    vertical: 'top',
-    horizontal: 'right',
-    type: (props.type == null) ? 'info' : props.type
-  };
+  handleClose = (e) => {
+    this.setState({
+      open: false,
+    });
+  }
 
-  const {open, autoHideDuration, vertical, horizontal, type} = state;
-
-  return(
-    <Snackbar
-      anchorOrigin={{ vertical, horizontal }}
-      open={open}
-      message={children}
-      key={vertical + horizontal}
-      className={classes[type]}
-      autoHideDuration={autoHideDuration}
-    />
-  )
+  render() {
+    return (
+      <Snackbar
+        anchorOrigin={{
+          vertical: this.state.vertical,
+          horizontal: this.state.horizontal,
+        }}
+        open={this.state.open}
+        message={this.children}
+        key={this.state.vertical + this.state.horizontal}
+        autoHideDuration={this.state.autoHideDuration}
+        onClose={this.handleClose}
+      />
+    );
+  }
 }
 
 export default AlertBar;
