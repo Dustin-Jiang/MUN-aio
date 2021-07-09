@@ -74,7 +74,7 @@ function Home() {
         </Grid>
       </Hidden>
       <Hidden mdUp>
-        <AlertBar>
+        <AlertBar type="success">
           Lorem ipsum
         </AlertBar>
         <Grid container

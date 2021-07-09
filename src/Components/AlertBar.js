@@ -6,15 +6,17 @@ import CloseIcon from "@material-ui/icons/Close";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import WarningIcon from "@material-ui/icons/Warning";
 
+import classNames from "classnames";
+
 import {
   withStyles,
   SnackbarContent,
   Snackbar,
   IconButton,
-  makeStyles
+  Icon
 } from "@material-ui/core";
 
-const styles = makeStyles((theme) => ({
+const styles = (theme) => ({
   success: {
     backgroundColor: theme.palette.success.main,
   },
@@ -29,8 +31,6 @@ const styles = makeStyles((theme) => ({
   },
   icon: {
     fontSize: 20,
-  },
-  iconVariant: {
     opacity: 0.9,
     marginRight: theme.spacing(1),
   },
@@ -38,26 +38,34 @@ const styles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
   },
-}));
+});
 
-class AlertBar extends React.Component {
+class AlertBarComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.children = props.children;
 
-    this.variantIcon = {
-      success: CheckCircleIcon,
-      warning: WarningIcon,
-      error: ErrorIcon,
-      info: InfoIcon,
-    };
-    
+    //To get styles
+    this.classes = props["classes"];
+    console.log(this.classes);
+
+    // Use mother component's props as now props
+    props = props["props"];
+    console.log(props.children);
+
     this.state = {
       open: true,
       autoHideDuration: 6000,
       vertical: 'top',
+      message: props.children,
       horizontal: 'right',
       type: (props.type == null) ? 'info' : props.type
+    };
+
+    this.variantIcon = {
+      "success": <CheckCircleIcon className={this.classes.icon} />,
+      "warning": <WarningIcon className={this.classes.icon} />,
+      "error": <ErrorIcon className={this.classes.icon} />,
+      "info": <InfoIcon className={this.classes.icon} />
     };
   }
 
@@ -65,7 +73,7 @@ class AlertBar extends React.Component {
     this.setState({
       open: false,
     });
-  }
+  };
 
   render() {
     return (
@@ -75,10 +83,36 @@ class AlertBar extends React.Component {
           horizontal: this.state.horizontal,
         }}
         open={this.state.open}
-        message={this.children}
         key={this.state.vertical + this.state.horizontal}
         autoHideDuration={this.state.autoHideDuration}
         onClose={this.handleClose}
+      >
+        <SnackbarContent 
+          className={this.classes[this.state.type]}
+          message={
+            <span id="client-snackbar" className={this.classes.message}>
+              {this.variantIcon[this.state.type]}
+              {this.state.message}
+            </span>
+          }
+        />
+      </Snackbar>
+    );
+  }
+}
+
+//To add classes to the Component, avoiding hook errors
+const AlertBarComponentWithStyle = withStyles(styles)(AlertBarComponent);
+
+class AlertBar extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <AlertBarComponentWithStyle
+        props={this.props}
       />
     );
   }
