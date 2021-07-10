@@ -46,16 +46,14 @@ class AlertBarComponent extends React.Component {
 
     //To get styles
     this.classes = props["classes"];
-    console.log(this.classes);
 
     // Use mother component's props as now props
     props = props["props"];
-    console.log(props.children);
 
     this.state = {
-      open: true,
+      open: (props.open == null) ? true : props.open,
       autoHideDuration: 6000,
-      vertical: 'top',
+      vertical: (props.vertical == null) ? 'top' : props.vertical,
       message: props.children,
       horizontal: 'right',
       type: (props.type == null) ? 'info' : props.type
@@ -74,6 +72,12 @@ class AlertBarComponent extends React.Component {
       open: false,
     });
   };
+
+  handleOpen = () => {
+    this.setState({
+      open: true,
+    })
+  }
 
   render() {
     return (

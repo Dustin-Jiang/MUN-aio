@@ -1,6 +1,6 @@
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import md5 from "blueimp-md5";
-import API from "./util/Api"
+import API from "./util/Api";
 import {
   Avatar,
   Button,
@@ -13,7 +13,8 @@ import {
 } from "@material-ui/core";
 import { useState } from "react";
 import Auth from "./util/Auth";
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
+import AlertBar from "./Components/AlertBar";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -77,6 +78,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function BackToHome(props) {
+  const history = useHistory();
+  if (Auth.GetUser() !== null) {
+    history.push("/");
+    return(
+      <Redirect to="/"/>
+    )
+  } else return props.children;
+}
+
 function Login() {
   const classes = useStyles();
   const history = useHistory();
@@ -84,82 +95,94 @@ function Login() {
   const loginValidate = (e) => {
     e.preventDefault();
     API.get('/login/' + email + '/' + md5(pwd))
-    .then((response) => {
-      const result = response.rawData;
-      if (response.status === 200 || response.status === 304) {
-        if (Auth.GetUser() === null) {
-          Auth.authenticate(result["content"])
-          history.push("/")
-        } else {
-          console.log(Auth.GetUser())
-          Auth.signout();
-          Auth.authenticate(result["content"]);
-          history.push("/")
+      .then((response) => {
+        const result = response.rawData;
+        if (response.status === 200 || response.status === 304) {
+          if (Auth.GetUser() === null) {
+            Auth.authenticate(result["content"]);
+            history.push("/");
+          } else {
+            Auth.signout();
+            Auth.authenticate(result["content"]);
+            history.push("/");
+          }
         }
-      }
-    })
-    .catch((error) => {
-      if (error.response) {
-        console.log(error.response.status);
-      }
-    });
-  }
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.status === 403) {
+            setOpen(false);
+            setOpen(true);
+          }
+        }
+      });
+  };
 
   const stopRedirect = (e) => {
     e.preventDefault();
-  }
-  
+  };
+
   const [pwd, setPwd] = useState("");
   const [email, setEmail] = useState("");
+  const [open, setOpen] = useState(false);
 
   return (
-    <Paper className={classes.paper}>
-      <Avatar className={classes.avatar}>
-        <LockOutlinedIcon />
-      </Avatar>
-      <Typography component="h1" variant="h5">
-        登录 MUN AIO
+    <BackToHome>
+      {
+        open &&
+        <AlertBar open={open} type="error">
+          用户名或密码错误
+        </AlertBar>
+      }
+      
+      <Paper className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          登录 MUN AIO
       </Typography>
-      <form className={classes.form} onSubmit={stopRedirect}>
-        <FormControl margin="normal" required fullWidth>
-          <InputLabel htmlFor="email">
-            电子邮箱
+        <form className={classes.form} onSubmit={stopRedirect}>
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="email">
+              电子邮箱
         </InputLabel>
-          <Input
-            id="email"
-            type="email"
-            name="email"
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-            autoComplete="true"
-            autoFocus={true}
-          />
-        </FormControl>
-        <FormControl margin="normal" required fullWidth>
-          <InputLabel htmlFor="password">
-            密码
+            <Input
+              id="email"
+              type="email"
+              name="email"
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+              autoComplete="true"
+              autoFocus={true}
+            />
+          </FormControl>
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="password">
+              密码
           </InputLabel>
-          <Input
-            name="password"
-            onChange={(e) => setPwd(e.target.value)}
-            type="password"
-            id="password"
-            autoComplete="true"
-          />
-        </FormControl>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          onClick={loginValidate}
-        >
-          登录
+            <Input
+              name="password"
+              onChange={(e) => setPwd(e.target.value)}
+              type="password"
+              id="password"
+              autoComplete="true"
+            />
+          </FormControl>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={loginValidate}
+          >
+            登录
         </Button>
-      </form>
-    </Paper>);
+        </form>
+      </Paper>
+    </BackToHome>);
 }
 
 export default Login;
