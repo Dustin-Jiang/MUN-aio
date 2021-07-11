@@ -21,9 +21,16 @@ import React from 'react';
 import Auth from '../util/Auth';
 
 const useStyles = makeStyles((theme) => ({
+  card: {
+    width: theme.spacing(56),
+    marginRight: theme.spacing(2),
+    flexShrink: 0,
+    scrollSnapAlign: 'start',
+  },
   CommandSheets: {
     marginTop: theme.spacing(1),
-    width: "100%",
+    width: theme.spacing(32),
+    flexShrink: 0,
     textAlign: "left",
     borderRadius: "4px",
     "& > *": {
@@ -33,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: theme.spacing(2),
       width: "100%",
     }
+  },
+  CommandSheetsContainer: {
+    display: 'flex',
+    overflowX: 'auto',
+    padding: '3px 2px',
+    scrollSnapType: 'x mandatory',
   },
   CommandSenderInfo: {
     "& > *": {
@@ -58,22 +71,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-class ListContent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <CommandSheets />
-    );
-  }
+function ListContent(props) {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.CommandSheetsContainer}>
+      <CommandSheets name="1" />
+      <CommandSheets name="2" />
+      <CommandSheets name="3" />
+    </div>
+  );
 }
 
 function CommandSheets(props) {
   const classes = useStyles();
+  var name = props.name;
 
   return (
-    <Card>
+    <Card name={name} className={classes.card}>
       <CardContent>
         <div className={classes.CommandSenderInfo}>
           <Typography variant="caption">
@@ -113,30 +128,51 @@ function CommandSheets(props) {
 }
 
 function CommandAction(props) {
-  const [open, setOpen] = React.useState(false);
+  const [passOpen, setPassOpen] = React.useState(false);
+  const [rejectOpen, setRejectOpen] = React.useState(false);
   const [publicPublish, setPublicPublish] = React.useState(true);
+  const [result, setResult] = React.useState("");
+  const [reason, setReason] = React.useState("");
 
   const handlePassClick = (e) => {
     e.preventDefault();
-    setOpen(true);
+    setPassOpen(true);
+  };
+
+  const handleRejectClick = (e) => {
+    e.preventDefault();
+    setRejectOpen(true);
   };
 
   const handlePassClose = (e) => {
     e.preventDefault();
-    setOpen(false);
+    if (e.target.parentElement.name === "submit") {
+      console.log(result);
+      console.log(publicPublish);
+    };
+    setPassOpen(false);
+  };
+
+  const handleRejectClose = (e) => {
+    e.preventDefault();
+    if (e.target.parentElement.name === "submit") {
+      console.log(result);
+      console.log(publicPublish);
+    };
+    setRejectOpen(false);
   };
 
   const handlePublishChange = (switchState) => {
     setPublicPublish(!switchState);
-  }
+  };
 
   return (
     <div>
       <CardActions>
         <Button variant="outlined" color="primary" onClick={handlePassClick}>通过</Button>
-        <Button variant="outlined" color="secondary">不通过</Button>
+        <Button variant="outlined" color="secondary" onClick={handleRejectClick}>不通过</Button>
       </CardActions>
-      <Dialog open={open} onClose={handlePassClose}>
+      <Dialog open={passOpen} onClose={handlePassClose}>
         <DialogTitle>
           通过这条指令?
         </DialogTitle>
@@ -147,19 +183,20 @@ function CommandAction(props) {
           <TextField
             autoFocus
             margin="dense"
-            id="name"
+            id="result"
             label="推演结果"
             type="text"
             fullWidth
             multiline
             rows={3}
+            onChange={(e) => { setResult(e.target.value); }}
           />
           <FormControlLabel
             control={
               <Switch
                 name="publicPublish"
                 checked={publicPublish}
-                onClick={()=>handlePublishChange(publicPublish)}
+                onClick={() => handlePublishChange(publicPublish)}
                 color="primary"
               />
             }
@@ -167,10 +204,39 @@ function CommandAction(props) {
           </FormControlLabel>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handlePassClose} color="primary">
+          <Button onClick={handlePassClose} color="primary" name="submit">
             提交
           </Button>
-          <Button onClick={handlePassClose} color="primary">
+          <Button onClick={handlePassClose} color="primary" name="cancel">
+            取消
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={rejectOpen} onClose={handleRejectClose}>
+        <DialogTitle>
+          拒绝这条指令?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            输入拒绝理由与意见
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="reason"
+            label="拒绝理由与意见"
+            type="text"
+            fullWidth
+            multiline
+            rows={3}
+            onChange={(e) => { setReason(e.target.value); }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleRejectClose} color="primary" name="submit">
+            提交
+          </Button>
+          <Button onClick={handleRejectClose} color="primary" name="cancel">
             取消
           </Button>
         </DialogActions>

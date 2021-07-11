@@ -146,7 +146,7 @@ function Login() {
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email">
               电子邮箱
-        </InputLabel>
+            </InputLabel>
             <Input
               id="email"
               type="email"
@@ -161,7 +161,7 @@ function Login() {
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="password">
               密码
-          </InputLabel>
+            </InputLabel>
             <Input
               name="password"
               onChange={(e) => setPwd(e.target.value)}
@@ -179,7 +179,7 @@ function Login() {
             onClick={loginValidate}
           >
             登录
-        </Button>
+          </Button>
         </form>
       </Paper>
     </BackToHome>);
