@@ -66,7 +66,7 @@ function HomeContent(props) {
           <Paper className={classes.noPadding}>
             <Typography variant="h6" className={classes.noPaddingFix}>
               权限
-              </Typography>
+            </Typography>
             <Permission />
           </Paper>
         </div>
@@ -74,7 +74,7 @@ function HomeContent(props) {
           <Paper>
             <Typography variant="h6">
               通知
-              </Typography>
+            </Typography>
             <Notification />
           </Paper>
         </div>

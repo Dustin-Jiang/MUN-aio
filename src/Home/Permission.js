@@ -24,6 +24,10 @@ function generatePermission(name) {
       "icon": <ChatBubbleIcon className={classes.Icon} />,
       "text": "发布新闻"
     },
+    "checkNews": {
+      "icon": <ChatBubbleIcon className={classes.Icon} />,
+      "text": "审阅新闻"
+    },
     "DH": {
       "icon": <Person className={classes.Icon} />,
       "text": "Dais Head"

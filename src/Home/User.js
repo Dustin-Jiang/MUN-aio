@@ -23,7 +23,7 @@ function User() {
           { Auth.GetUser()['name'] }
         </Typography>
         <Typography variant="caption">
-          中文常规委员会
+          { Auth.getConference("name") }
         </Typography>
       </div>
     </Grid>

@@ -5,12 +5,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -72,6 +70,22 @@ function CommandBar(props) {
     setMobileOpen(!mobileOpen);
   };
 
+  const linkTable = {
+    files: <ListItemLink primary="文件" to="/file" icon={<FileCopy />}/>,
+    news: <ListItemLink primary="新闻" to="/news" icon={<ChatBubble />} />,
+    checkCommand: <ListItemLink primary="指令单" to="/commandlist" icon={<Assignment />} />,
+    notification: <ListItemLink icon={<Notifications />} primary="通知" to="/notification" />
+  }
+
+  var enabledFunction = []
+
+  if (localStorage.getItem("isAuthenticated")) {
+    var functionsNeed = JSON.parse(localStorage.getItem("conference"))["functions"];
+    for (var i in functionsNeed) {
+      enabledFunction.push(linkTable[functionsNeed[i]]);
+    }
+  }
+
   const drawer = (
     <div>
       <div className={classes.toolbar} />
@@ -83,25 +97,7 @@ function CommandBar(props) {
       </List>
       <Divider />
       <List>
-        <ListItemLink
-          primary="文件"
-          to="/file"
-          icon={<FileCopy />} />
-
-        <ListItemLink
-          primary="新闻"
-          to="/news"
-          icon={<ChatBubble />} />
-
-        <ListItemLink
-          primary="指令单"
-          to="/commandlist"
-          icon={<Assignment />} />
-
-        <ListItemLink
-          icon={<Notifications />}
-          primary="通知"
-          to="/notification" />
+        { enabledFunction }
       </List>
       <Divider />
       <List>
@@ -169,13 +165,5 @@ function CommandBar(props) {
     </div>
   );
 }
-
-CommandBar.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
 
 export default CommandBar;

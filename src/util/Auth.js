@@ -1,8 +1,11 @@
 const Auth = {
-    isAuthenticated: false,
+    isAuthenticated() {
+        return localStorage.getItem("isAuthenticated")
+    },
     authenticate(cb) {
         Auth.SetUser(cb);
         Auth.isAuthenticated = true;
+        localStorage.setItem("isAuthenticated", true);
     },
     GetUser() {
         return JSON.parse(localStorage.getItem("user") || "null");
@@ -20,21 +23,30 @@ const Auth = {
         return false;
     },
     signout() {
-        Auth.isAuthenticated = false;
+        localStorage.setItem("isAuthenticated", false);
         localStorage.removeItem("user");
     },
-    SetPreference(key, value) {
-        let preference = JSON.parse(localStorage.getItem("user_preference") || "{}");
-        preference = preference == null ? {} : preference;
-        preference[key] = value;
-        localStorage.setItem("user_preference", JSON.stringify(preference));
+    setConference(value) {
+        localStorage.setItem("conference", JSON.stringify(value));
     },
-    GetPreference(key) {
-        const preference = JSON.parse(localStorage.getItem("user_preference") || "{}");
-        if (preference && preference[key]) {
-            return preference[key];
+    getConference(key) {
+        const conference = JSON.parse(localStorage.getItem("conference") || "{}");
+        if (conference && conference[key]) {
+            return conference[key];
         }
         return null;
     },
+    GetPermission(key) {
+        var permission = JSON.parse(localStorage.getItem("user") || "{}");
+        if (permission === "{}") return false;
+        permission = permission["permission"];
+        console.log(permission);
+        for (var i in permission) {
+            if (permission[i] === key) {
+                return true;
+            }
+        }
+        return false;
+    }
 };
 export default Auth;

@@ -92,6 +92,18 @@ function Login() {
   const classes = useStyles();
   const history = useHistory();
 
+  const setConference = (conferenceID) => {
+    API.get('/conference/' + conferenceID).then((response) => {
+      const result = response.rawData;
+      Auth.setConference(result);
+      history.push("/");
+    }).catch((error) => {
+      if (error.response) {
+        console.log(error);
+      }
+    });
+  }
+
   const loginValidate = (e) => {
     e.preventDefault();
     API.get('/login/' + email + '/' + md5(pwd))
@@ -100,11 +112,11 @@ function Login() {
         if (response.status === 200 || response.status === 304) {
           if (Auth.GetUser() === null) {
             Auth.authenticate(result["content"]);
-            history.push("/");
+            setConference(Auth.GetUser()["conference"]);
           } else {
             Auth.signout();
             Auth.authenticate(result["content"]);
-            history.push("/");
+            setConference(Auth.GetUser()["conference"]);
           }
         }
       })
