@@ -1,6 +1,7 @@
 import {
-  Grid, 
-  Paper, 
+  Grid,
+  Hidden,
+  Paper,
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,14 +20,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   rootMobile: {
-    '& > * > *': {
+    '& > *': {
       margin: theme.spacing(1),
       padding: theme.spacing(2),
-      width: "100%",
     },
-    '& > *': {
-      width: "100%",
-    }
+    width: "100%",
   },
   noPadding: {
     padding: 0,
@@ -43,13 +41,31 @@ function CommandList() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.root.paper}>
-        <Typography variant="caption">
-          待处理
-        </Typography>
-        <div><ListContent /></div>
-      </Paper>
+    <div>
+      <Hidden smDown>
+        <div className={classes.root}>
+          <Paper className={classes.root.paper}>
+            <Typography variant="caption">
+              待处理
+          </Typography>
+            <div>
+              <ListContent />
+            </div>
+          </Paper>
+        </div>
+      </Hidden>
+      <Hidden mdUp>
+        <div className={classes.rootMobile}>
+          <Paper className={classes.rootMobile.paper}>
+            <Typography variant="caption">
+              待处理
+          </Typography>
+            <div>
+              <ListContent />
+            </div>
+          </Paper>
+        </div>
+      </Hidden>
     </div>
   );
 }
