@@ -94,7 +94,7 @@ function CommandSheets(props) {
         <div className={classes.CommandMainText}>
           <Typography variant="h5">
             荷兰王国 | 指令单编号1.1
-        </Typography>
+          </Typography>
           <div>
             <Typography>指令发向</Typography>
             <div className={classes.CommandReceiverContainer}>
