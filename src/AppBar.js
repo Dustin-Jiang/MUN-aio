@@ -98,6 +98,10 @@ function CommandBar(props) {
       <Divider />
       <List>
         { enabledFunction }
+        <ListItemLink
+          icon={<Notifications />}
+          primary="通知"
+          to="/notification" />
       </List>
       <Divider />
       <List>
