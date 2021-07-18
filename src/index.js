@@ -13,6 +13,7 @@ import PageFile from './File/File';
 import CommandBar from './AppBar';
 import CommandList from './CommandList/CommandList';
 import News from './News/News';
+import Setting from './Setting';
 import { Grid } from '@material-ui/core';
 import AuthRoute from './util/AuthRoute';
 
@@ -39,6 +40,10 @@ ReactDOM.render(
           </Route>
           <Route path="/exit">
             <Exit />
+          </Route>
+          <Route path="/settings">
+            <CommandBar />
+            <Setting />
           </Route>
           <Route path="/commandlist">
             <Grid container
