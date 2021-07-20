@@ -12,10 +12,14 @@ import {
   Button,
   DialogContentText,
   FormControl,
+  CircularProgress,
 } from '@material-ui/core';
-import { Email, KeyboardArrowRight, Lock, PermDataSetting } from '@material-ui/icons';
+import { Email, KeyboardArrowRight, Lock } from '@material-ui/icons';
 import React from 'react';
 import Auth from './util/Auth';
+import API from './util/Api';
+import md5 from 'blueimp-md5';
+import AlertBar from './Components/AlertBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto',
     color: theme.palette.grey[600],
     display: "flex",
+  },
+  buttonProgress: {
+    height: "24.5px !important",
+    width: "24.5px !important",
   }
 }));
 
@@ -47,11 +55,18 @@ function Setting() {
     emailDialog: {
       open: false,
       error: false,
+      loading: false,
     },
     passwordDialog: {
       open: false,
       errorColumn: 0,
+      loading: false,
     },
+  });
+
+  const [snackBar, setSnackBar] = React.useState({
+    success: false,
+    failed: false,
   });
 
   const [email, setEmail] = React.useState("");
@@ -75,14 +90,48 @@ function Setting() {
           })
         }
         else {
-          console.log(email);
+          console.log(email)
           setState({
             ...state,
-            emailState: {
+            emailDialog: {
               ...state.emailDialog,
-              open: false,
+              open: true,
               error: false,
+              loading: true,
             }
+          });
+          API.get("/settings/" + Auth.GetUser()["id"] + "/changeEmail/" + email)
+          .then((response) => {
+            if (response.status === 200 || response.status === 304) {
+              setState({
+                ...state,
+                emailDialog: {
+                  ...state.emailDialog,
+                  open: false,
+                  loading: false,
+                }
+              });
+              setSnackBar({
+                success: true,
+                ...snackBar
+              });
+              setSnackBar({
+                success: false,
+                ...snackBar
+              });
+              Auth.signout();
+              window.location.href("/login");
+            }
+          }).catch((err) => {
+            console.log(err);
+            setSnackBar({
+              success: false,
+              failed: true,
+            });
+            setSnackBar({
+              success: false,
+              failed: false,
+            })
           })
         }
       }
@@ -94,6 +143,7 @@ function Setting() {
             open: false,
           },
         });
+        setEmail("");
       }
     },
     passwordDialog(e, ...more) {
@@ -119,6 +169,56 @@ function Setting() {
             }
           })
           return ;
+        }
+        else {
+          setState({
+            ...state,
+            passwordDialog: {
+              ...state.passwordDialog,
+              loading: true,
+            }
+          })
+          API.get('/settings/' + Auth.GetUser()["id"] + '/changePassword/' + md5(pwd["old"]) + '/' + md5(pwd["new"]))
+          .then((response) => {
+            if (response.status === 200 || response.status === 304) {
+              setState({
+                ...state,
+                passwordDialog: {
+                  ...state.passwordDialog,
+                  loading: false,
+                }
+              });
+              setSnackBar({
+                success: true,
+                failed: false,
+              });
+              setSnackBar({
+                success: false,
+                failed: false,
+              });
+              handleClose.passwordDialog();
+              Auth.signout();
+              window.location.href("/login");
+            }
+          }).catch((err) => {
+            console.log(err);
+            setState({
+              ...state,
+              passwordDialog: {
+                ...state.passwordDialog,
+                open: true,
+                loading: false,
+              }
+            });
+            setSnackBar({
+              success: false,
+              failed: true,
+            });
+            setSnackBar({
+              success: false,
+              failed: false,
+            });
+          })
         }
       }
       else {
@@ -161,6 +261,8 @@ function Setting() {
 
   return (
     <div className={classes.root}>
+      {snackBar.success && <AlertBar type="success" open={snackBar.success}>操作成功</AlertBar>}
+      {snackBar.failed && <AlertBar type="error" open={snackBar.failed}>操作失败</AlertBar>}
       <Typography variant="subtitle2">
         安全
       </Typography>
@@ -210,7 +312,9 @@ function Setting() {
         </DialogContent>
         <DialogActions>
           <Button name="submit" onClick={(e) => handleClose.emailDialog(e, true)}>
-            确认
+            {
+              state.emailDialog.loading ? <CircularProgress className={classes.buttonProgress}/> : "确认"
+            }
           </Button>
           <Button color="primary" onClick={handleClose.emailDialog}>
             取消
@@ -264,8 +368,10 @@ function Setting() {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={(e) => handleClose.passwordDialog(e, true)} name="submit">
-            确认
+          <Button onClick={(e) => handleClose.passwordDialog(e, true)} name="submit" disabled={state.passwordDialog.loading}>
+            {
+              state.passwordDialog.loading ? <CircularProgress className={classes.buttonProgress}/> : "确认"
+            }
           </Button>
           <Button color="primary" onClick={handleClose.passwordDialog}>
             取消

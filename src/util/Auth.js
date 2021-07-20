@@ -14,7 +14,7 @@ const Auth = {
         localStorage.setItem("user", JSON.stringify(newUser));
     },
     Check() {
-        if (localStorage.getItem("isAuthenticated")) {
+        if (localStorage.getItem("isAuthenticated") === true) {
             return true;
         }
         if (localStorage.getItem("user") !== null) {
