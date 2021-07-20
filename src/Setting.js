@@ -120,7 +120,7 @@ function Setting() {
                 ...snackBar
               });
               Auth.signout();
-              window.location.href("/login");
+              window.location.href = "/login";
             }
           }).catch((err) => {
             console.log(err);
@@ -198,7 +198,7 @@ function Setting() {
               });
               handleClose.passwordDialog();
               Auth.signout();
-              window.location.href("/login");
+              window.location.href = "/login";
             }
           }).catch((err) => {
             console.log(err);
